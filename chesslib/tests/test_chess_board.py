@@ -22,3 +22,8 @@ def test_index_to_square():
 def test_get_board_column():
     expected = {'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'}
     assert get_board_column('h4') == expected
+
+
+def test_get_board_row():
+    expected = {'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3'}
+    assert get_board_row('c3') == expected
