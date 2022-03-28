@@ -19,6 +19,12 @@ def index_to_square(index):
     return f"{column}{row}"
 
 
+# returns a set of the squares in the column of a given square
+def get_board_column(square):
+    column_index = square_to_index(square) % 8
+    return {index_to_square(column_index + (row_index * 8)) for row_index in range(8)}
+
+
 class ChessBoard():
     def __init__(self):
         self._board = create_default_board()

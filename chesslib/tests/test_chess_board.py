@@ -17,3 +17,8 @@ def test_index_to_square():
         index_to_square(63) == 'h8'
         and
         index_to_square(36) == 'e5')
+
+
+def test_get_board_column():
+    expected = {'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'}
+    assert get_board_column('h4') == expected
