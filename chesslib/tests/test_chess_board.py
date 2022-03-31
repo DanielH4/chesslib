@@ -27,3 +27,31 @@ def test_get_board_column():
 def test_get_board_row():
     expected = {'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3'}
     assert get_board_row('c3') == expected
+
+
+def test_is_in_board():
+    assert (
+        is_in_board(square_to_index('a1'), -1, -1) == False
+        and
+        is_in_board(square_to_index('a8'), 0, -1) == False
+        and
+        is_in_board(square_to_index('h8'), 1, 0) == False
+        and
+        is_in_board(square_to_index('h1'), 0, 1) == False
+        and
+        is_in_board(square_to_index('h1'), 1, -1) == True)
+
+
+def test_get_surrounding_squares():
+    expected_a1 = {'a1', 'a2', 'b2', 'b1'}
+    expected_h1 = {'h1', 'h2', 'g2', 'g1'}
+    expected_a8 = {'a8', 'b8', 'b7', 'a7'}
+    expected_h8 = {'h8', 'g8', 'g7', 'h7'}
+    assert (
+        get_surrounding_squares('a1') == expected_a1
+        and
+        get_surrounding_squares('h1') == expected_h1
+        and
+        get_surrounding_squares('a8') == expected_a8
+        and
+        get_surrounding_squares('h8') == expected_h8)
