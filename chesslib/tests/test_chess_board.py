@@ -29,6 +29,21 @@ def test_get_board_row():
     assert get_board_row('c3') == expected
 
 
+def test_get_board_diagonals():
+    expected_e4 = {
+        'a8', 'b7', 'c6', 'd5', 'e4', 'f3', 'g2', 'h1',
+        'b1', 'c2', 'd3', 'e4', 'f5', 'g6', 'h7'
+    }
+    expected_b7 = {
+        'a8', 'b7', 'c6', 'd5', 'e4', 'f3', 'g2', 'h1',
+        'a6', 'b7', 'c8'
+    }
+    assert (
+        get_board_diagonals('e4') == expected_e4
+        and
+        get_board_diagonals('b7') == expected_b7)
+
+
 def test_is_in_board():
     assert (
         is_in_board(square_to_index('a1'), -1, -1) == False

@@ -31,6 +31,26 @@ def get_board_row(square):
     return {index_to_square(column_index + (row_index * 8)) for column_index in range(8)}
 
 
+def get_board_diagonals(square):
+    square_index = square_to_index(square)
+
+    diagonal_squares = set()
+    for offset in range(8):
+        if is_in_board(square_index, offset, offset):
+            diagonal_squares.add(index_to_square(square_index + offset + (8 * offset)))
+
+        if is_in_board(square_index, offset, -offset):
+            diagonal_squares.add(index_to_square(square_index - offset + (8 * offset)))
+
+        if is_in_board(square_index, -offset, offset):
+            diagonal_squares.add(index_to_square(square_index + offset - (8 * offset)))
+
+        if is_in_board(square_index, -offset, -offset):
+            diagonal_squares.add(index_to_square(square_index - offset - (8 * offset)))
+
+    return diagonal_squares
+
+
 # returns true if a square moved x,y amount in rows and columns 
 # relative to a given square index is still within the bounds of the board
 def is_in_board(square_index, row_change=0, col_change=0):
