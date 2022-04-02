@@ -1,4 +1,4 @@
-from chesslib.chess_board import *
+from chesslib.chess_board_utils import *
 
 
 def test_square_to_index():
