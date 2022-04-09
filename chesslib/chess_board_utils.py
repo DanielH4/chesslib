@@ -24,22 +24,26 @@ def get_board_row(square):
     return {index_to_square(column_index + (row_index * 8)) for column_index in range(8)}
 
 
-def get_board_diagonals(square):
+# returns the set of squares diagonal from the given square until encountering a piece
+def get_board_diagonals(board, square):
     square_index = square_to_index(square)
 
     diagonal_squares = set()
-    for offset in range(8):
-        if is_in_board(square_index, offset, offset):
-            diagonal_squares.add(index_to_square(square_index + offset + (8 * offset)))
 
-        if is_in_board(square_index, offset, -offset):
-            diagonal_squares.add(index_to_square(square_index - offset + (8 * offset)))
+    # possibly 4 diagonal directions from given square
+    for diagonal in ((1,1), (1,-1), (-1,1), (-1,-1)):
+        for offset in range(1,8):
+            row_offset = offset * diagonal[0]
+            col_offset = offset * diagonal[1]
+            offset_square = index_to_square(square_index + col_offset + (8 * row_offset))
 
-        if is_in_board(square_index, -offset, offset):
-            diagonal_squares.add(index_to_square(square_index + offset - (8 * offset)))
+            if is_in_board(square_index, row_offset, col_offset):
+                diagonal_squares.add(offset_square)
 
-        if is_in_board(square_index, -offset, -offset):
-            diagonal_squares.add(index_to_square(square_index - offset - (8 * offset)))
+                # stop diagonal traversal if a piece is encountered
+                is_occupied_square = board.get_piece(offset_square) is not None
+                if is_occupied_square:
+                    break
 
     return diagonal_squares
 
