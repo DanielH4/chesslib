@@ -48,7 +48,7 @@ def get_board_row(board, square):
 
             row_squares.add(offset_square)
 
-            if not board.is_empty_square(square):
+            if not board.is_empty_square(offset_square):
                 break
 
     return row_squares
