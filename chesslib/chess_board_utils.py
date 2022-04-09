@@ -56,8 +56,7 @@ def get_board_diagonals(board, square):
                 diagonal_squares.add(offset_square)
 
                 # stop diagonal traversal if a piece is encountered
-                is_occupied_square = board.get_piece(offset_square) is not None
-                if is_occupied_square:
+                if not board.is_empty_square(offset_square):
                     break
 
     return diagonal_squares
