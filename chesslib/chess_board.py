@@ -53,3 +53,6 @@ class ChessBoard():
 
     def get_piece(self, square):
         return self._board[square_to_index(square)]
+
+    def is_empty_square(self, square):
+        return self.get_piece(square) is None
