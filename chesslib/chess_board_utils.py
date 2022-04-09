@@ -18,10 +18,25 @@ def get_board_column(square):
     return {index_to_square(column_index + (row_index * 8)) for row_index in range(8)}
 
 
-# returns a set of squares in the row of a given square
-def get_board_row(square):
-    row_index = int(square_to_index(square) / 8)
-    return {index_to_square(column_index + (row_index * 8)) for column_index in range(8)}
+# returns the set of squares in a row from the given square until encountering a piece
+def get_board_row(board, square):
+    square_index = square_to_index(square)
+
+    row_squares = set()
+
+    for direction in (-1,1):
+        for col_offset in range(1,8):
+            if not is_in_board(square_index, 0, col_offset * direction):
+                break
+
+            offset_square = index_to_square(square_index + (col_offset * direction))
+
+            row_squares.add(offset_square)
+
+            if not board.is_empty_square(square):
+                break
+
+    return row_squares
 
 
 # returns the set of squares diagonal from the given square until encountering a piece

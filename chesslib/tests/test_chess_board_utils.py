@@ -25,9 +25,9 @@ def test_get_board_column():
     assert get_board_column('h4') == expected
 
 
-def test_get_board_row():
-    expected = {'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3'}
-    assert get_board_row('c3') == expected
+def test_get_board_row_on_empty_board():
+    expected = {'a3', 'b3', 'd3', 'e3', 'f3', 'g3', 'h3'}
+    assert get_board_row(ChessBoard(), 'c3') == expected
 
 
 def test_get_board_diagonals_on_empty_board():
