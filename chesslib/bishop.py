@@ -25,8 +25,3 @@ class Bishop(Piece):
     @staticmethod
     def black_ascii_representation():
         return 'b'
-
-    def __str__(self):
-        if self._color == 'white':
-            return self.__class__.white_ascii_representation()
-        return self.__class__.black_ascii_representation()

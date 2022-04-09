@@ -24,6 +24,7 @@ class Piece(ABC):
     def legal_moves(self, board, square):
         raise NotImplementedError
     
-    @abstractmethod
     def __str__(self):
-        raise NotImplementedError
+        if self.color == 'white':
+            return self.__class__.white_ascii_representation()
+        return self.__class__.black_ascii_representation()
