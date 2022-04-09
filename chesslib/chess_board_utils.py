@@ -12,10 +12,25 @@ def index_to_square(index):
     return f"{column}{row}"
 
 
-# returns a set of the squares in the column of a given square
-def get_board_column(square):
-    column_index = square_to_index(square) % 8
-    return {index_to_square(column_index + (row_index * 8)) for row_index in range(8)}
+# returns the set of squares in a column from the given square until encountering a piece
+def get_board_column(board, square):
+    square_index = square_to_index(square)
+
+    col_squares = set()
+
+    for direction in (-1,1):
+        for row_offset in range(1,8):
+            if not is_in_board(square_index, row_offset * direction, 0):
+                break
+
+            offset_square = index_to_square(square_index + (8 * (row_offset * direction)))
+
+            col_squares.add(offset_square)
+
+            if not board.is_empty_square(offset_square):
+                break
+
+    return col_squares
 
 
 # returns the set of squares in a row from the given square until encountering a piece

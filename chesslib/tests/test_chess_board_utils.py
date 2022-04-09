@@ -20,9 +20,9 @@ def test_index_to_square():
         index_to_square(36) == 'e5')
 
 
-def test_get_board_column():
-    expected = {'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'}
-    assert get_board_column('h4') == expected
+def test_get_board_column_on_empty_board():
+    expected = {'h1', 'h2', 'h3', 'h5', 'h6', 'h7', 'h8'}
+    assert get_board_column(ChessBoard(), 'h4') == expected
 
 
 def test_get_board_row_on_empty_board():
