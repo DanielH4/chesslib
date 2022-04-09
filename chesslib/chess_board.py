@@ -1,3 +1,5 @@
+from chesslib.bishop import Bishop
+from chesslib.chess_board_utils import *
 
 
 EMPTY_SQUARE_ASCII_REPRESENTATION = '.'
@@ -27,6 +29,10 @@ def create_board_from_str(board_str):
     for square_index, char in enumerate(board_str):
         if char == EMPTY_SQUARE_ASCII_REPRESENTATION:
             pass
+        elif char == Bishop.white_ascii_representation():
+            board[square_index] = Bishop('white')
+        elif char == Bishop.black_ascii_representation():
+            board[square_index] = Bishop('black')
         else:
             raise UnicodeDecodeError('ChessBoard constructor',
                                      str.encode(board_str),
