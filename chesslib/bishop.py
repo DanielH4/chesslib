@@ -9,14 +9,10 @@ class Bishop(Piece):
 
     def legal_moves(self, board, square):
         def is_legal_move(square):
-            piece = board.get_piece(square)
+            return self._is_legal_move(board, square)
 
-            # legal move if square is empty or pieces have different colors
-            if piece == None or piece.color != self.color:
-                return True
-            return False
-
-        return set(filter(is_legal_move, get_board_diagonals(board, square)))
+        potential_moves = get_board_diagonals(board, square)
+        return set(filter(is_legal_move, potential_moves))
 
     @staticmethod
     def white_ascii_representation():

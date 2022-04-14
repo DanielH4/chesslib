@@ -9,14 +9,10 @@ class Rook(Piece):
 
     def legal_moves(self, board, square):
         def is_legal_move(square):
-            piece = board.get_piece(square)
+            return self._is_legal_move(board, square)
 
-            if board.is_empty_square(square) or piece.color != self.color:
-                return True
-            return False
-
-        return set(filter(is_legal_move, get_board_row(board, square) 
-                                         | get_board_column(board, square)))
+        potential_moves = get_board_row(board, square) | get_board_column(board, square)
+        return set(filter(is_legal_move, potential_moves))
 
     @staticmethod
     def white_ascii_representation():

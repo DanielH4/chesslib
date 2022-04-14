@@ -23,6 +23,15 @@ class Piece(ABC):
     @abstractmethod
     def legal_moves(self, board, square):
         raise NotImplementedError
+
+    # returns true if given square is unoccupied on the board 
+    # or if occupying piece has a different color
+    def _is_legal_move(self, board, square):
+        piece = board.get_piece(square)
+
+        if board.is_empty_square(square) or piece.color != self.color:
+            return True
+        return False
     
     def __str__(self):
         if self.color == 'white':
