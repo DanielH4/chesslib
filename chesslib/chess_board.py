@@ -1,3 +1,4 @@
+from chesslib.rook import Rook
 from chesslib.bishop import Bishop
 from chesslib.chess_board_utils import *
 
@@ -33,6 +34,10 @@ def create_board_from_str(board_str):
             board[square_index] = Bishop('white')
         elif char == Bishop.black_ascii_representation():
             board[square_index] = Bishop('black')
+        elif char == Rook.white_ascii_representation():
+            board[square_index] = Rook('white')
+        elif char == Rook.black_ascii_representation():
+            board[square_index] = Rook('black')
         else:
             raise UnicodeDecodeError('ChessBoard constructor',
                                      str.encode(board_str),
