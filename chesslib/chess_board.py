@@ -1,5 +1,6 @@
 from chesslib.rook import Rook
 from chesslib.bishop import Bishop
+from chesslib.knight import Knight
 from chesslib.chess_board_utils import *
 
 
@@ -38,6 +39,10 @@ def create_board_from_str(board_str):
             board[square_index] = Rook('white')
         elif char == Rook.black_ascii_representation():
             board[square_index] = Rook('black')
+        elif char == Knight.white_ascii_representation():
+            board[square_index] = Knight('white')
+        elif char == Knight.black_ascii_representation():
+            board[square_index] = Knight('black')
         else:
             raise UnicodeDecodeError('ChessBoard constructor',
                                      str.encode(board_str),
