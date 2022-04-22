@@ -25,20 +25,6 @@ class Pawn(Piece):
 
         return moves
 
-    #def _legal_row_moves(self, board, square):
-    #    moves = set()
-    #    first_front_square = get_front_square(square, self.color)
-    #    second_front_square = get_front_square(first_front_square, self.color)
-
-    #    if board.is_empty_square(first_front_square):
-    #        moves.add(first_front_square)
-
-    #        if (board.is_empty_square(second_front_square) 
-    #            and self.__class__._is_in_default_position(self, square)):
-    #               moves.add(second_front_square)
-
-    #    return moves
-
     def _legal_diagonal_moves(self, board, square):
         moves = set()
 
