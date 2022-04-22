@@ -1,4 +1,5 @@
 from chesslib.king import King
+from chesslib.pawn import Pawn
 from chesslib.rook import Rook
 from chesslib.queen import Queen
 from chesslib.bishop import Bishop
@@ -53,6 +54,10 @@ def create_board_from_str(board_str):
             board[square_index] = Queen('white')
         elif char == Queen.black_ascii_representation():
             board[square_index] = Queen('black')
+        elif char == Pawn.white_ascii_representation():
+            board[square_index] = Pawn('white')
+        elif char == Pawn.black_ascii_representation():
+            board[square_index] = Pawn('black')
         else:
             raise UnicodeDecodeError('ChessBoard constructor',
                                      str.encode(board_str),
