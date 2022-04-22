@@ -71,3 +71,17 @@ def test_get_surrounding_squares():
         get_surrounding_squares('a8') == expected_a8
         and
         get_surrounding_squares('h8') == expected_h8)
+
+
+def test_get_n_front_squares():
+    assert (
+        get_n_front_squares(ChessBoard(), 'd4', 'white', 1) == {'d5'}
+        and
+        get_n_front_squares(ChessBoard(), 'd4', 'black', 2) == {'d3', 'd2'})
+
+
+def test_get_front_diagonal_squares():
+    assert(
+        get_front_diagonal_squares('d4', 'white') == {'c5', 'e5'}
+        and
+        get_front_diagonal_squares('d4', 'black') == {'c3', 'e3'})

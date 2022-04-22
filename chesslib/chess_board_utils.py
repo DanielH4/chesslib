@@ -104,3 +104,41 @@ def get_surrounding_squares(square):
                 surrounding_squares.add(index_to_square(surrounding_square_index))
 
     return surrounding_squares
+
+
+# returns a set of up to n squares in front of the given square
+# 'front' is determined by color (opposite of starting side of the board)
+# includes squares where a piece is encountered but stops iteration early
+def get_n_front_squares(board, square, color, n):
+    square_index = square_to_index(square)
+
+    front_squares = set()
+
+    row_offsets = range(1,n+1) if color == 'white' else range(-1,-n-1,-1)
+    for row_offset in row_offsets:
+        if not is_in_board(square_index, row_change=row_offset):
+            break
+
+        offset_square = index_to_square(square_index + (8 * row_offset))
+        front_squares.add(offset_square)
+
+        if not board.is_empty_square(offset_square):
+            break
+
+    return front_squares
+
+
+# returns the two diagonal squares in front of the given square as a set
+def get_front_diagonal_squares(square, color):
+    square_index = square_to_index(square)
+    diagonal_offsets = ((1,1), (1,-1)) if color == 'white' else ((-1,1), (-1,-1))
+
+    front_diagonal_squares = set()
+    for offsets in diagonal_offsets:
+        row_offset = offsets[0]
+        col_offset = offsets[1]
+        if is_in_board(square_index, row_offset, col_offset):
+            diagonal_square = index_to_square(square_index + col_offset + (8 * row_offset))
+            front_diagonal_squares.add(diagonal_square)
+
+    return front_diagonal_squares
