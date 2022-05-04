@@ -22,12 +22,12 @@ def test_index_to_square():
 
 def test_get_board_column_on_empty_board():
     expected = {'h1', 'h2', 'h3', 'h5', 'h6', 'h7', 'h8'}
-    assert get_board_column(ChessBoard(), 'h4') == expected
+    assert get_board_column(ChessBoard(empty=True), 'h4') == expected
 
 
 def test_get_board_row_on_empty_board():
     expected = {'a3', 'b3', 'd3', 'e3', 'f3', 'g3', 'h3'}
-    assert get_board_row(ChessBoard(), 'c3') == expected
+    assert get_board_row(ChessBoard(empty=True), 'c3') == expected
 
 
 def test_get_board_diagonals_on_empty_board():
@@ -40,9 +40,9 @@ def test_get_board_diagonals_on_empty_board():
         'a6', 'c8'
     }
     assert (
-        get_board_diagonals(ChessBoard(), 'e4') == expected_e4
+        get_board_diagonals(ChessBoard(empty=True), 'e4') == expected_e4
         and
-        get_board_diagonals(ChessBoard(), 'b7') == expected_b7)
+        get_board_diagonals(ChessBoard(empty=True), 'b7') == expected_b7)
 
 
 def test_is_in_board():
