@@ -26,3 +26,11 @@ def test_create_board_from_str():
                               "........"
                               "........"
                               "........")
+
+
+def test_set_square():
+    square = 'a1'
+    piece = Rook('white')
+    board = ChessBoard()
+    board.set_square(square, piece)
+    assert board.get_piece(square) == piece
