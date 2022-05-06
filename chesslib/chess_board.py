@@ -107,6 +107,12 @@ class ChessBoard():
     def get_piece(self, square):
         return self._board[square_to_index(square)]
 
+    # returns a list of all the pieces on the board or only pieces of specified color
+    def get_pieces(self, color=None):
+        if color is None:
+            return [piece for piece in self._board if piece is not None]
+        return [piece for piece in self._board if piece is not None and piece.color == color]
+
     def set_square(self, square, piece):
         self._board[square_to_index(square)] = piece
 
