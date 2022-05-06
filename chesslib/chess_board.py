@@ -113,6 +113,12 @@ class ChessBoard():
             return [piece for piece in self._board if piece is not None]
         return [piece for piece in self._board if piece is not None and piece.color == color]
 
+    # returns the square occupied by a piece on the chess board
+    def get_square(self, piece):
+        for square_index, board_piece in enumerate(self._board):
+            if board_piece is piece:
+                return index_to_square(square_index)
+
     def set_square(self, square, piece):
         self._board[square_to_index(square)] = piece
 

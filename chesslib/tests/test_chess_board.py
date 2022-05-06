@@ -50,3 +50,17 @@ def test_get_pieces():
         all([piece.color == 'white' for piece in white_pieces])
         and
         all([piece.color == 'black' for piece in black_pieces]))
+
+
+def test_get_position():
+    board = ChessBoard("...R...."
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........")
+    square = 'd1'
+    piece = board.get_piece(square)
+    assert board.get_square(piece) == square
