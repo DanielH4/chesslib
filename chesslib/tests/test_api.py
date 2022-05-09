@@ -1,4 +1,4 @@
-from chesslib.api.chess import Chess
+from chesslib.api import Chess
 from chesslib.chess_board import ChessBoard
 
 
