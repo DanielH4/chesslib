@@ -4,14 +4,14 @@ from chesslib.chess_board import *
 
 
 def test_create_default_board():
-    assert str(ChessBoard()) == ("RNBQKBNR\n"
-                                 "PPPPPPPP\n"
-                                 "........\n"
-                                 "........\n"
-                                 "........\n"
-                                 "........\n"
-                                 "pppppppp\n"
-                                 "rnbqkbnr")
+    assert str(ChessBoard().to_string()) == ("rnbqkbnr"
+                                             "pppppppp"
+                                             "........"
+                                             "........"
+                                             "........"
+                                             "........"
+                                             "PPPPPPPP"
+                                             "RNBQKBNR")
 
 
 def test_create_board_from_str():
@@ -64,3 +64,24 @@ def test_get_position():
     square = 'd1'
     piece = board.get_piece(square)
     assert board.get_square(piece) == square
+
+
+def test_to_string():
+    assert (
+        ChessBoard().to_string() == ("rnbqkbnr"
+                                     "pppppppp"
+                                     "........"
+                                     "........"
+                                     "........"
+                                     "........"
+                                     "PPPPPPPP"
+                                     "RNBQKBNR")
+        and
+        ChessBoard().to_string(playing_color='black') == ("RNBKQBNR"
+                                                          "PPPPPPPP"
+                                                          "........"
+                                                          "........"
+                                                          "........"
+                                                          "........"
+                                                          "pppppppp"
+                                                          "rnbkqbnr"))

@@ -125,18 +125,27 @@ class ChessBoard():
     def is_empty_square(self, square):
         return self.get_piece(square) is None
 
-    def __str__(self):
+    def to_string(self, playing_color='white'):
+        row_seq = range(8)
+        col_seq = range(7,-1,-1)
+        if playing_color == 'white':
+            row_seq = range(7,-1,-1)
+            col_seq = range(8)
+
         board_str = ''
 
-        for square_index, piece in enumerate(self._board):
-            if square_index % 8 == 0 and square_index > 0:
-                board_str += '\n'
+        for row in row_seq:
+            for col in col_seq:
+                square_index = col+(8*row)
 
-            if piece is None:
-                board_str += '.'
-            elif piece.color == 'white':
-                board_str += piece.white_ascii_representation()
-            else:
-                board_str += piece.black_ascii_representation()
+                square = index_to_square(square_index)
+                piece = self.get_piece(square)
+
+                if piece is None:
+                    board_str += '.'
+                elif piece.color == 'white':
+                    board_str += piece.white_ascii_representation()
+                else:
+                    board_str += piece.black_ascii_representation()
 
         return board_str
