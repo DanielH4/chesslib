@@ -44,6 +44,7 @@ class Chess():
 
         self._board.set_square(to_square, moved_piece)
         self._board.set_square(from_square, None)
+        self._swap_turn()
 
         if captured_piece is not None:
             return captured_piece.value
