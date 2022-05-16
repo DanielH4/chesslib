@@ -5,10 +5,20 @@ class Chess():
     def __init__(self):
         self._board = ChessBoard()
         self._turn = 'white'
+        self._check = False
+        self._checkmate = False
 
     @property
     def turn(self):
         return self._turn
+
+    @property
+    def check(self):
+        return self._check
+
+    @property
+    def checkmate(self):
+        return self._checkmate
 
     # returns a set of tuples of the legal moves of a color
     # moves are encoded as squares (eg. 'c4') in the form: (from, to)
