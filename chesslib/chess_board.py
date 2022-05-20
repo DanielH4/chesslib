@@ -125,6 +125,16 @@ class ChessBoard():
     def is_empty_square(self, square):
         return self.get_piece(square) is None
 
+    # returns a set of tuples of possible moves of all pieces (or specific color) on the board
+    # moves are encoded as squares (eg. 'c4') in the form: (from, to)
+    def get_moves(self, color=None):
+        moves = set()
+        for piece in self.get_pieces(color):
+            from_square = self.get_square(piece)
+            for to_square in piece.legal_moves(self, from_square):
+                moves.add((from_square, to_square))
+        return moves
+
     def to_string(self, playing_color='white'):
         row_seq = range(8)
         col_seq = range(7,-1,-1)

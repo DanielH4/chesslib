@@ -85,3 +85,37 @@ def test_to_string():
                                                           "........"
                                                           "pppppppp"
                                                           "rnbkqbnr"))
+
+
+def test_get_moves():
+    board = ChessBoard("........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "Rn......")
+    white_rook_moves = {
+        ('a8', 'a7'),
+        ('a8', 'a6'),
+        ('a8', 'a5'),
+        ('a8', 'a4'),
+        ('a8', 'a3'),
+        ('a8', 'a2'),
+        ('a8', 'a1'),
+        ('a8', 'b8')
+    }
+    black_knight_moves = {
+        ('b8', 'a6'),
+        ('b8', 'c6'),
+        ('b8', 'd7')
+    }
+
+    assert (
+        board.get_moves() == white_rook_moves | black_knight_moves
+        and
+        board.get_moves('white') == white_rook_moves
+        and
+        board.get_moves('black') == black_knight_moves
+    )
