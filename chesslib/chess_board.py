@@ -135,6 +135,12 @@ class ChessBoard():
                 moves.add((from_square, to_square))
         return moves
 
+    # swaps the pieces on the given squares
+    def swap_pieces(self, square1, square2):
+        s1i = square_to_index(square1)
+        s2i = square_to_index(square2)
+        self._board[s1i], self._board[s2i] = self._board[s2i], self._board[s1i]
+
     def to_string(self, playing_color='white'):
         row_seq = range(8)
         col_seq = range(7,-1,-1)

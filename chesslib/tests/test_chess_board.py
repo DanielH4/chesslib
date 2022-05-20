@@ -119,3 +119,23 @@ def test_get_moves():
         and
         board.get_moves('black') == black_knight_moves
     )
+
+def test_swap_pieces():
+    board = ChessBoard("........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "Rn......")
+    rook_square = 'a8'
+    knight_square = 'b8'
+    rook = board.get_piece(rook_square)
+    knight = board.get_piece(knight_square)
+    board.swap_pieces(rook_square, knight_square)
+    assert (
+        board.get_piece(rook_square) is knight
+        and
+        board.get_piece(knight_square) is rook
+    )
