@@ -120,6 +120,39 @@ def test_get_moves():
         board.get_moves('black') == black_knight_moves
     )
 
+def test_get_king_square():
+    board = ChessBoard("K......."
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........")
+    expected = 'a1'
+    assert board.get_king_square('white') == expected
+
+def test_move():
+    board = ChessBoard("Rr......"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........"
+                       "........")
+    from_square = 'a1'
+    to_square = 'b1'
+    white_rook = board.get_piece(from_square)
+
+    board.move(from_square, to_square)
+
+    assert (
+        board.get_piece(from_square) is None
+        and
+        board.get_piece(to_square) is white_rook
+    )
+
 def test_swap_pieces():
     board = ChessBoard("........"
                        "........"

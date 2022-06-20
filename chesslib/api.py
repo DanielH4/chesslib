@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from chesslib.chess_board import ChessBoard
 
 
@@ -26,12 +28,14 @@ class Chess():
         if color is None:
             color = self.turn
 
-        moves = set()
-        for piece in self._board.get_pieces(color):
-            from_square = self._board.get_square(piece)
-            for to_square in piece.legal_moves(self._board, from_square):
-                moves.add((from_square, to_square))
-        return moves
+        def is_legal_move(move):
+            game_copy = deepcopy(self)
+            game_copy._board.move(move[0], move[1])
+            if game_copy._is_check(color):
+                return False
+            return True
+
+        return set(filter(is_legal_move, self._board.get_moves(color)))
 
     # moves a piece if it's a legal move otherwise returns None
     # if a legal move is made, returns value of the captured piece or 0 if captured square is empty
@@ -49,6 +53,18 @@ class Chess():
         if captured_piece is not None:
             return captured_piece.value
         return 0
+
+    def _is_check(self, color=None):
+        if color is None:
+            color = self.turn
+
+        king_square = self._board.get_king_square(color)
+        opponent_color = 'white' if color == 'black' else 'black'
+
+        for (_, to_square) in self._board.get_moves(opponent_color):
+            if to_square == king_square:
+                return True
+        return False
 
     def _swap_turn(self):
         if self.turn == 'white':

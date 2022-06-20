@@ -135,6 +135,17 @@ class ChessBoard():
                 moves.add((from_square, to_square))
         return moves
 
+    # returns the square occupied by king piece of given color
+    def get_king_square(self, color):
+        for piece in self.get_pieces(color):
+            if isinstance(piece, King):
+                return self.get_square(piece)
+
+    # sets to_square to whatever is in from_square and clears from_square
+    def move(self, from_square, to_square):
+        self.set_square(to_square, self.get_piece(from_square))
+        self.set_square(from_square, None)
+
     # swaps the pieces on the given squares
     def swap_pieces(self, square1, square2):
         s1i = square_to_index(square1)

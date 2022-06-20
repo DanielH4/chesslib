@@ -29,31 +29,38 @@ def test_legal_moves():
     }
 
     assert (
-        game.legal_moves('white') == white_rook_legal_moves
+        (game.legal_moves('white') == white_rook_legal_moves)
         and
-        game.legal_moves('black') == black_knight_legal_moves
+        (game.legal_moves('black') == black_knight_legal_moves)
     )
 
 
-def test_move():
+def test_legal_moves():
     game = Chess()
-    game._board = ChessBoard("Q......."
-                             "p......."
-                             "........"
+    game._board = ChessBoard(".K......"
+                             "q......."
+                             "pp......"
                              "........"
                              "........"
                              "........"
                              "........"
                              "........")
-    moved_piece = game._board.get_piece('a1')
-    captured_piece = game._board.get_piece('a2')
-    game.move('a1', 'b1')
+    king_square = 'b1'
+    queen_square = 'a2'
+    pawn_square = 'b3'
     assert (
-        game._board.get_piece('a1') is None
+        game.legal_moves('white') == {(king_square, 'c1')}
         and
-        game._board.get_piece('b1') is moved_piece
-        and
-        game.move('b1', 'a2') == captured_piece.value
-        and
-        Chess().move('a5', 'a4') is None # illegal move
+        game.legal_moves('black') == {
+                                        (queen_square, 'a1'),
+                                        (queen_square, 'b1'),
+                                        (queen_square, 'b2'),
+                                        (queen_square, 'c2'),
+                                        (queen_square, 'd2'),
+                                        (queen_square, 'e2'),
+                                        (queen_square, 'f2'),
+                                        (queen_square, 'g2'),
+                                        (queen_square, 'h2'),
+                                        (pawn_square, 'b2')
+                                     }
     )
