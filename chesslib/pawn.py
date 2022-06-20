@@ -39,7 +39,7 @@ class Pawn(Piece):
     @staticmethod
     def _is_in_default_position(pawn, square):
         square_index = square_to_index(square)
-        row = (square_index / 8) + 1
+        row = int(square_index / 8) + 1
 
         is_white_default = (row == 2 and pawn.color == 'white')
         is_black_default = (row == 7 and pawn.color == 'black')
