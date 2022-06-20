@@ -40,15 +40,16 @@ class Chess():
     # moves a piece if it's a legal move otherwise returns None
     # if a legal move is made, returns value of the captured piece or 0 if captured square is empty
     def move(self, from_square, to_square):
-        if not (from_square, to_square) in self.legal_moves(self.turn):
+        if (not (from_square, to_square) in self.legal_moves(self.turn)) or self.checkmate:
             return None
 
-        moved_piece = self._board.get_piece(from_square)
         captured_piece = self._board.get_piece(to_square)
 
-        self._board.set_square(to_square, moved_piece)
-        self._board.set_square(from_square, None)
+        self._board.move(from_square, to_square)
         self._swap_turn()
+
+        self._check = True if self._is_check() else False
+        self._checkmate = True if self._is_checkmate() else False
 
         if captured_piece is not None:
             return captured_piece.value
@@ -64,6 +65,14 @@ class Chess():
         for (_, to_square) in self._board.get_moves(opponent_color):
             if to_square == king_square:
                 return True
+        return False
+
+    def _is_checkmate(self, color=None):
+        if color is None:
+            color = self.turn
+
+        if self.legal_moves(color) == set():
+            return True
         return False
 
     def _swap_turn(self):

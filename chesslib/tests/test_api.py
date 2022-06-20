@@ -64,3 +64,52 @@ def test_legal_moves():
                                         (pawn_square, 'b2')
                                      }
     )
+
+def test_move():
+    game1 = Chess()
+    game1._turn = 'white'
+    game1._board = ChessBoard("......k."
+                              "....Q..."
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........")
+    game1.move('e2', 'f2')
+
+    game2 = Chess()
+    game2._turn = 'black'
+    game2._board = ChessBoard("......k."
+                              ".....Q.."
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........")
+    game2.move('g1', 'h1')
+
+    game3 = Chess()
+    game3._turn = 'white'
+    game3._board = ChessBoard(".......k"
+                              ".....Q.."
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "......R.")
+    game3.move('f2', 'g2')
+
+    assert (
+        game1.turn == 'black'
+        and
+        game1.check == True
+        and
+        game1.checkmate == False
+        and
+        game2.check == False
+        and
+        game3.checkmate == True
+    )
