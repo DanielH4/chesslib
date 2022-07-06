@@ -1,4 +1,5 @@
 from chesslib.api import Chess
+from chesslib.queen import Queen
 from chesslib.chess_board import ChessBoard
 
 
@@ -102,6 +103,19 @@ def test_move():
                               "......R.")
     game3.move('f2', 'g2')
 
+    game4 = Chess()
+    game4._turn = 'black'
+    game4._board = ChessBoard("..K....."
+                              "p......."
+                              "........"
+                              "....k..."
+                              "........"
+                              "........"
+                              "........"
+                              "........")
+    game4.move('a2', 'a1')
+    game4_promoted_piece = game4._board.get_piece('a1')
+
     assert (
         game1.turn == 'black'
         and
@@ -112,4 +126,8 @@ def test_move():
         game2.check == False
         and
         game3.checkmate == True
+        and
+        isinstance(game4_promoted_piece, Queen)
+        and
+        game4.check == True
     )

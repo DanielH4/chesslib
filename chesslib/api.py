@@ -1,5 +1,10 @@
 from copy import deepcopy
 
+from chesslib.pawn import Pawn
+from chesslib.rook import Rook
+from chesslib.queen import Queen
+from chesslib.bishop import Bishop
+from chesslib.knight import Knight
 from chesslib.chess_board import ChessBoard
 
 
@@ -39,13 +44,17 @@ class Chess():
 
     # moves a piece if it's a legal move otherwise returns None
     # if a legal move is made, returns value of the captured piece or 0 if captured square is empty
-    def move(self, from_square, to_square):
+    def move(self, from_square, to_square, promote_to='queen'):
         if (not (from_square, to_square) in self.legal_moves(self.turn)) or self.checkmate:
             return None
 
         captured_piece = self._board.get_piece(to_square)
 
         self._board.move(from_square, to_square)
+
+        if self._should_promote(to_square):
+            self._promote(to_square, promote_to)
+
         self._swap_turn()
 
         self._check = True if self._is_check() else False
@@ -54,6 +63,51 @@ class Chess():
         if captured_piece is not None:
             return captured_piece.value
         return 0
+
+    def print(self):
+        status = ''
+        if self.checkmate:
+            status += 'Checkmate: '
+            if self.turn == 'white':
+                status += 'black wins!'
+            else:
+                status += 'white wins!'
+        else:
+            status += (f"Turn: {self.turn}\n"
+                       f"Check: {self.check}")
+
+        board_str = ''
+        for square_index, char in enumerate(self._board.to_string(self.turn)):
+            if square_index % 8 == 0 and square_index != 0:
+                board_str += '\n'
+            board_str += char
+
+        print(status)
+        print(board_str)
+
+    def _should_promote(self, square):
+        row = int(square[1])
+        piece = self._board.get_piece(square)
+        is_last_rank = ((piece.color == 'white' and row == 8)
+                        or
+                        (piece.color == 'black' and row == 1))
+
+        if isinstance(piece, Pawn) and is_last_rank:
+            return True
+        return False
+
+    def _promote(self, square, promote_to):
+        piece = None
+        if promote_to == 'rook':
+            piece = Rook(self.turn)
+        elif promote_to == 'bishop':
+            piece = Bishop(self.turn)
+        elif promote_to == 'knight':
+            piece = Knight(self.turn)
+        else:
+            piece = Queen(self.turn)
+
+        self._board.set_square(square, piece)
 
     def _is_check(self, color=None):
         if color is None:
