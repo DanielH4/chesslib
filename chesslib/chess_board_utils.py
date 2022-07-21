@@ -142,3 +142,18 @@ def get_front_diagonal_squares(square, color):
             front_diagonal_squares.add(diagonal_square)
 
     return front_diagonal_squares
+
+
+# returns adjacent pieces up to column limit if they exist
+def get_adjacent_pieces(board, square, col_limit=7):
+    square_index = square_to_index(square)
+
+    adjacent_pieces = set()
+    for col_offset in range(-col_limit, col_limit+1):
+        if is_in_board(square_index, col_change=col_offset) and col_offset != 0:
+            adjacent_square = index_to_square(square_index + col_offset)
+            adjacent_piece = board.get_piece(adjacent_square)
+            if adjacent_piece is not None:
+                adjacent_pieces.add(adjacent_piece)
+
+    return adjacent_pieces

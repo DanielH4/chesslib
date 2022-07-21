@@ -85,3 +85,42 @@ def test_get_front_diagonal_squares():
         get_front_diagonal_squares('d4', 'white') == {'c5', 'e5'}
         and
         get_front_diagonal_squares('d4', 'black') == {'c3', 'e3'})
+
+
+def test_get_adjacent_pieces():
+    board1 = ChessBoard("p..p...P"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........")
+    expected1 = {board1.get_piece('a1'), board1.get_piece('h1')}
+
+    board2 = ChessBoard("..pp.P.."
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........")
+    expected2 = {board2.get_piece('c1')}
+
+    board3 = ChessBoard("........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "........"
+                        "p..p...."
+                        "P.......")
+    expected3 = {board3.get_piece('a7')}
+
+    assert(
+        get_adjacent_pieces(board1, 'd1') == expected1
+        and
+        get_adjacent_pieces(board2, 'd1', col_limit=1) == expected2
+        and
+        get_adjacent_pieces(board3, 'd7') == expected3)
