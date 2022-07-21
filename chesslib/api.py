@@ -6,6 +6,10 @@ from chesslib.queen import Queen
 from chesslib.bishop import Bishop
 from chesslib.knight import Knight
 from chesslib.chess_board import ChessBoard
+from chesslib.chess_board_utils import (
+    index_to_square,
+    square_to_index
+)
 
 
 class Chess():
@@ -50,6 +54,7 @@ class Chess():
 
         captured_piece = self._board.get_piece(to_square)
 
+        self._handle_en_passant(from_square, to_square)
         self._board.move(from_square, to_square)
 
         if self._should_promote(to_square):
@@ -84,6 +89,31 @@ class Chess():
 
         print(status)
         print(board_str)
+
+    def _handle_en_passant(self, from_square, to_square):
+        moved_piece = self._board.get_piece(from_square)
+        target_piece = self._board.get_piece(to_square)
+        from_square_index = square_to_index(from_square)
+        to_square_index = square_to_index(to_square)
+        index_diff = abs(from_square_index - to_square_index)
+
+        is_diagonal_move = (index_diff == 7) or (index_diff == 9)
+        is_double_move = (index_diff == 16)
+
+        # remove adjacent pawn if it's a passant move
+        if isinstance(moved_piece, Pawn) and is_diagonal_move and target_piece is None:
+            square_offset = -8 if self.turn == 'white' else 8
+            adjacent_square = index_to_square(to_square_index + square_offset)
+            self._board.set_square(adjacent_square, None)
+
+        # clear passant flags
+        for piece in self._board.get_pieces(self.turn):
+            if isinstance(piece, Pawn):
+                piece.en_passantable = False
+
+        # set passant flag
+        if isinstance(moved_piece, Pawn) and is_double_move and Pawn._is_in_default_position(moved_piece, from_square):
+            moved_piece.en_passantable = True
 
     def _should_promote(self, square):
         row = int(square[1])

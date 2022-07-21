@@ -116,6 +116,36 @@ def test_move():
     game4.move('a2', 'a1')
     game4_promoted_piece = game4._board.get_piece('a1')
 
+    game5 = Chess()
+    game5._turn = 'white'
+    game5._board = ChessBoard("........"
+                              "P......."
+                              "........"
+                              ".p......"
+                              "........"
+                              "........"
+                              "........"
+                              "........")
+    game5.move('a2', 'a4')
+    game5_en_passantable = game5._board.get_piece('a4').en_passantable
+    game5.move('b4', 'a3')
+    game5_en_passantable_capture = game5._board.get_piece('a4') is None
+
+    game6 = Chess()
+    game6._turn = 'black'
+    game6._board = ChessBoard("........"
+                              "........"
+                              "........"
+                              "........"
+                              "...P...."
+                              "........"
+                              "....p..."
+                              "........")
+    game6.move('e7', 'e5')
+    game6_en_passantable = game6._board.get_piece('e5').en_passantable
+    game6.move('d5', 'e6')
+    game6_en_passantable_capture = game6._board.get_piece('e5') is None
+
     assert (
         game1.turn == 'black'
         and
@@ -130,4 +160,12 @@ def test_move():
         isinstance(game4_promoted_piece, Queen)
         and
         game4.check == True
+        and
+        game5_en_passantable == True
+        and
+        game5_en_passantable_capture == True
+        and
+        game6_en_passantable == True
+        and
+        game6_en_passantable_capture == True
     )
