@@ -1,4 +1,6 @@
 from chesslib.api import Chess
+from chesslib.king import King
+from chesslib.rook import Rook
 from chesslib.queen import Queen
 from chesslib.chess_board import ChessBoard
 
@@ -146,6 +148,23 @@ def test_move():
     game6.move('d5', 'e6')
     game6_en_passantable_capture = game6._board.get_piece('e5') is None
 
+    game7 = Chess()
+    game7._turn = 'white'
+    game7._board = ChessBoard("R...K..."
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "........"
+                              "....k..r")
+    game7.move('e1', 'a1')
+    game7.move('e8', 'h8')
+    expected_game7_white_king_square = 'c1'
+    expected_game7_white_rook_square = 'd1'
+    expected_game7_black_king_square = 'g8'
+    expected_game7_black_rook_square = 'f8'
+
     assert (
         game1.turn == 'black'
         and
@@ -168,4 +187,12 @@ def test_move():
         game6_en_passantable == True
         and
         game6_en_passantable_capture == True
+        and
+        isinstance(game7._board.get_piece(expected_game7_white_king_square), King)
+        and
+        isinstance(game7._board.get_piece(expected_game7_white_rook_square), Rook)
+        and
+        isinstance(game7._board.get_piece(expected_game7_black_king_square), King)
+        and
+        isinstance(game7._board.get_piece(expected_game7_black_rook_square), Rook)
     )

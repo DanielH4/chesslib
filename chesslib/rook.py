@@ -6,6 +6,15 @@ class Rook(Piece):
     def __init__(self, color):
         self._color = color
         self._value = 5
+        self._has_moved = False
+
+    @property
+    def has_moved(self):
+        return self._has_moved
+
+    @has_moved.setter
+    def has_moved(self, boolean):
+        self._has_moved = boolean
 
     def legal_moves(self, board, square):
         def is_legal_move(square):

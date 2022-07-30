@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+from chesslib.king import King
 from chesslib.pawn import Pawn
 from chesslib.rook import Rook
 from chesslib.queen import Queen
@@ -39,7 +40,10 @@ class Chess():
 
         def is_legal_move(move):
             game_copy = deepcopy(self)
-            game_copy._board.move(move[0], move[1])
+            if game_copy._is_castling_move(move[0], move[1]):
+                game_copy._handle_castling(move[0], move[1])
+            else:
+                game_copy._board.move(move[0], move[1])
             if game_copy._is_check(color):
                 return False
             return True
@@ -54,11 +58,14 @@ class Chess():
 
         captured_piece = self._board.get_piece(to_square)
 
-        self._handle_en_passant(from_square, to_square)
-        self._board.move(from_square, to_square)
+        if self._is_castling_move(from_square, to_square):
+            self._handle_castling(from_square, to_square)
+        else:
+            self._handle_en_passant(from_square, to_square)
+            self._board.move(from_square, to_square)
 
-        if self._should_promote(to_square):
-            self._promote(to_square, promote_to)
+            if self._should_promote(to_square):
+                self._promote(to_square, promote_to)
 
         self._swap_turn()
 
@@ -114,6 +121,31 @@ class Chess():
         # set passant flag
         if isinstance(moved_piece, Pawn) and is_double_move and Pawn._is_in_default_position(moved_piece, from_square):
             moved_piece.en_passantable = True
+
+    def _is_castling_move(self, from_square, to_square):
+        moved_piece = self._board.get_piece(from_square)
+        target_piece = self._board.get_piece(to_square)
+
+        if (isinstance(moved_piece, King) and
+            isinstance(target_piece, Rook) and
+            moved_piece.color == target_piece.color
+        ):
+            return True
+        return False
+
+    def _handle_castling(self, king_square, rook_square):
+        king = self._board.get_piece(king_square)
+        rook = self._board.get_piece(rook_square)
+        king_square_index = square_to_index(king_square)
+        rook_square_index = square_to_index(rook_square)
+        col_diff = abs(king_square_index - rook_square_index)
+        king_offset = 2 if col_diff == 3 else -2
+        rook_offset = -2 if col_diff == 3 else 3
+
+        self._board.move(king_square, index_to_square(king_square_index + king_offset))
+        self._board.move(rook_square, index_to_square(rook_square_index + rook_offset))
+        king.has_moved = True
+        rook.has_moved = True
 
     def _should_promote(self, square):
         row = int(square[1])
