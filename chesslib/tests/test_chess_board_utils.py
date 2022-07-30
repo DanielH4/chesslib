@@ -88,7 +88,7 @@ def test_get_front_diagonal_squares():
 
 
 def test_get_adjacent_pieces():
-    board1 = ChessBoard("p..p...P"
+    board1 = ChessBoard("p..p.p.P"
                         "........"
                         "........"
                         "........"
@@ -96,7 +96,7 @@ def test_get_adjacent_pieces():
                         "........"
                         "........"
                         "........")
-    expected1 = {board1.get_piece('a1'), board1.get_piece('h1')}
+    expected1 = {board1.get_piece('a1'), board1.get_piece('f1')}
 
     board2 = ChessBoard("..pp.P.."
                         "........"
