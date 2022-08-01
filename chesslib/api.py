@@ -1,4 +1,5 @@
 from copy import deepcopy
+import json
 
 from chesslib.king import King
 from chesslib.pawn import Pawn
@@ -75,6 +76,26 @@ class Chess():
         if captured_piece is not None:
             return captured_piece.value
         return 0
+
+    def toJSON(self):
+        board = {}
+        for i in range(64):
+            square = index_to_square(i)
+            piece = self._board.get_piece(square)
+            if piece is None:
+                board[square] = None
+            else:
+                piece_info = piece.__dict__
+                piece_info['_type'] = type(piece).__name__.lower()
+                board[square] = piece_info
+
+        state = {}
+        state['turn'] = self.turn
+        state['check'] = self.check
+        state['checkmate'] = self.checkmate
+        state['board'] = board
+
+        return json.dumps(state)
 
     def print(self):
         status = ''
