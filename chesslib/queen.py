@@ -8,6 +8,7 @@ from chesslib.chess_board_utils import (
 
 class Queen(Piece):
     def __init__(self, color):
+        self._type = 'queen'
         self._color = color
         self._value = 9
 

@@ -4,6 +4,7 @@ from chesslib.chess_board_utils import get_board_diagonals
 
 class Bishop(Piece):
     def __init__(self, color):
+        self._type = 'bishop'
         self._color = color
         self._value = 3
 

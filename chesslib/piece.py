@@ -3,6 +3,10 @@ from abc import ABC, abstractmethod
 
 class Piece(ABC):
     @property
+    def type(self):
+        return self._type
+
+    @property
     def color(self):
         return self._color
 

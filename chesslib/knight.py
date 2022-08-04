@@ -4,6 +4,7 @@ from chesslib.chess_board_utils import square_to_index, index_to_square, is_in_b
 
 class Knight(Piece):
     def __init__(self, color):
+        self._type = 'knight'
         self._color = color
         self._value = 3
 

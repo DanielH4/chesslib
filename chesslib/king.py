@@ -8,6 +8,7 @@ from chesslib.chess_board_utils import (
 
 class King(Piece):
     def __init__(self, color):
+        self._type = 'king'
         self._color = color
         self._value = None
         self._has_moved = False
