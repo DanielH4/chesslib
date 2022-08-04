@@ -78,24 +78,15 @@ class Chess():
         return 0
 
     def toJSON(self):
-        board = {}
-        for i in range(64):
-            square = index_to_square(i)
-            piece = self._board.get_piece(square)
-            if piece is None:
-                board[square] = None
-            else:
-                piece_info = piece.__dict__
-                piece_info['_type'] = type(piece).__name__.lower()
-                board[square] = piece_info
+        # returns an object dict without leading underscores on keys
+        def formatted_obj_dict(obj):
+            obj_dict = {}
+            for key, value in obj.__dict__.items():
+                key_without_leading_underscore = key.lstrip('_')
+                obj_dict[key_without_leading_underscore] = value
+            return obj_dict
 
-        state = {}
-        state['turn'] = self.turn
-        state['check'] = self.check
-        state['checkmate'] = self.checkmate
-        state['board'] = board
-
-        return json.dumps(state)
+        return json.dumps(self, default=formatted_obj_dict)
 
     def print(self):
         status = ''
