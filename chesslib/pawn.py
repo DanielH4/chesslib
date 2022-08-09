@@ -9,11 +9,11 @@ from chesslib.chess_board_utils import (
 
 
 class Pawn(Piece):
-    def __init__(self, color):
+    def __init__(self, color, en_passantable=False):
         self._type = 'pawn'
         self._color = color
         self._value = 1
-        self._en_passantable = False
+        self._en_passantable = en_passantable
 
     @property
     def en_passantable(self):

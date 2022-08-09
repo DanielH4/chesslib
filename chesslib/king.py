@@ -7,11 +7,11 @@ from chesslib.chess_board_utils import (
 
 
 class King(Piece):
-    def __init__(self, color):
+    def __init__(self, color, has_moved=False):
         self._type = 'king'
         self._color = color
         self._value = None
-        self._has_moved = False
+        self._has_moved = has_moved
 
     @property
     def has_moved(self):

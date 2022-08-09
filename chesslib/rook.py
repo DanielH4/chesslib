@@ -3,11 +3,11 @@ from chesslib.chess_board_utils import get_board_row, get_board_column
 
 
 class Rook(Piece):
-    def __init__(self, color):
+    def __init__(self, color, has_moved=False):
         self._type = 'rook'
         self._color = color
         self._value = 5
-        self._has_moved = False
+        self._has_moved = has_moved
 
     @property
     def has_moved(self):
