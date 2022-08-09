@@ -1,8 +1,27 @@
+import os
+import json
+import pytest
+import jsonschema
+
 from chesslib.api import Chess
 from chesslib.king import King
 from chesslib.rook import Rook
 from chesslib.queen import Queen
 from chesslib.chess_board import ChessBoard
+
+
+@pytest.fixture
+def get_json_str_from_testdata():
+    def get_testdata_file_path(file_name):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        return f'{dir_path}/testdata/{file_name}'
+
+    def get_json_str(file_name):
+        with open(get_testdata_file_path(file_name), 'r') as f:
+            data = json.load(f)
+            return json.dumps(data)
+
+    return get_json_str
 
 
 def test_legal_moves():
@@ -196,3 +215,16 @@ def test_move():
         and
         isinstance(game7._board.get_piece(expected_game7_black_rook_square), Rook)
     )
+
+
+def test_from_json_default_chess(get_json_str_from_testdata):
+    chess_json_str = get_json_str_from_testdata('default_chess.json')
+    from_json = Chess.fromJSON(chess_json_str)
+
+    assert from_json == Chess()
+
+
+def test_from_json_missing_properties_rook(get_json_str_from_testdata):
+    chess_json_str = get_json_str_from_testdata('chess_missing_properties_rook.json')
+    with pytest.raises(jsonschema.exceptions.ValidationError):
+        Chess.fromJSON(chess_json_str)

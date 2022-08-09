@@ -1,5 +1,6 @@
 from copy import deepcopy
 import json
+import jsonschema
 
 from chesslib.king import King
 from chesslib.pawn import Pawn
@@ -15,11 +16,11 @@ from chesslib.chess_board_utils import (
 
 
 class Chess():
-    def __init__(self):
-        self._board = ChessBoard()
-        self._turn = 'white'
-        self._check = False
-        self._checkmate = False
+    def __init__(self, board=ChessBoard(), turn='white', check=False, checkmate=False):
+        self._board = board
+        self._turn = turn
+        self._check = check
+        self._checkmate = checkmate
 
     @property
     def turn(self):
@@ -87,6 +88,13 @@ class Chess():
             return obj_dict
 
         return json.dumps(self, default=formatted_obj_dict)
+
+    @staticmethod
+    def fromJSON(json_str):
+        chess_dict = json.loads(json_str)
+        jsonschema.validate(instance=chess_dict, schema=Chess._json_schema())
+
+        return Chess._create_from_dict(chess_dict)
 
     def print(self):
         status = ''
@@ -208,6 +216,96 @@ class Chess():
             self._turn = 'black'
         else:
             self._turn = 'white'
+
+    @staticmethod
+    def _create_from_dict(chess_state):
+        def create_piece(piece_dict):
+            type_ = piece_dict['type']
+            color = piece_dict['color']
+            if type_ == 'king':
+                return King(color, has_moved=piece_dict['has_moved'])
+            elif type_ == 'queen':
+                return Queen(color)
+            elif type_ == 'bishop':
+                return Bishop(color)
+            elif type_ == 'knight':
+                return Knight(color)
+            elif type_ == 'rook':
+                return Rook(color, has_moved=piece_dict['has_moved'])
+            elif type_ == 'pawn':
+                return Pawn(color, en_passantable=piece_dict['en_passantable'])
+
+        turn = chess_state['turn']
+        check = chess_state['check']
+        checkmate = chess_state['checkmate']
+
+        board = ChessBoard(empty=True)
+        for index, piece_dict in enumerate(chess_state['board']['board']):
+            if piece_dict:
+                board.set_square(index_to_square(index), create_piece(piece_dict))
+
+        return Chess(board=board, turn=turn, check=check, checkmate=checkmate)
+
+    @staticmethod
+    def _json_schema():
+        return {
+            "type": "object",
+            "required": ["check", "checkmate", "turn", "board"],
+            "properties": {
+                "check": { "type": "boolean" },
+                "checkmate": { "type": "boolean" },
+                "turn": {
+                    "type": "string",
+                    "pattern": "(white|black)"
+                },
+                "board": {
+                    "type": "object",
+                    "required": ["board"],
+                    "properties": {
+                        "board": {
+                            "type": "array",
+                            "minItems": 64,
+                            "maxItems": 64,
+                            "items": {
+                                "oneOf": [
+                                    { "type": "null" },
+                                    {
+                                        "type": "object",
+                                        "required": ["type", "color"],
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "pattern": "(king|queen|bishop|knight|rook|pawn)"
+                                            },
+                                            "color": {
+                                                "type": "string",
+                                                "pattern": "(white|black)"
+                                            },
+                                            "has_moved": { "type": "boolean" },
+                                            "en_passantable": { "type": "boolean" }
+                                        },
+                                        "allOf": [
+                                            {
+                                                "if": { "properties": { "type": { "const": "pawn" } } },
+                                                "then": { "required": ["en_passantable"] }
+                                            },
+                                            {
+                                                "if": { "properties": { "type": { "const": "rook" } } },
+                                                "then": { "required": ["has_moved"] }
+                                            },
+                                            {
+                                                "if": { "properties": { "type": { "const": "king" } } },
+                                                "then": { "required": ["has_moved"] }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

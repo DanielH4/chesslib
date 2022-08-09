@@ -7,13 +7,16 @@ docutils==0.18.1
 idna==3.3
 importlib-metadata==4.11.3
 iniconfig==1.1.1
+jsonschema==4.9.1
 keyring==23.5.0
+numpy==1.22.3
 packaging==21.3
 pkginfo==1.8.2
 pluggy==1.0.0
 py==1.11.0
 Pygments==2.11.2
 pyparsing==3.0.7
+pyrsistent==0.18.1
 pytest==7.1.1
 readme-renderer==34.0
 requests==2.27.1
