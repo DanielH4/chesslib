@@ -78,7 +78,7 @@ class Chess():
             return captured_piece.value
         return 0
 
-    def toJSON(self):
+    def toJSON(self, prettify=False):
         # returns an object dict without leading underscores on keys
         def formatted_obj_dict(obj):
             obj_dict = {}
@@ -87,7 +87,9 @@ class Chess():
                 obj_dict[key_without_leading_underscore] = value
             return obj_dict
 
-        return json.dumps(self, default=formatted_obj_dict)
+        indent = 2 if prettify else None
+
+        return json.dumps(self, default=formatted_obj_dict, indent=indent)
 
     @staticmethod
     def fromJSON(json_str):
