@@ -16,10 +16,10 @@ from chesslib.chess_board_utils import (
 
 
 class Chess():
-    def __init__(self, board=ChessBoard(), turn='white', check=False, checkmate=False):
+    def __init__(self, board=ChessBoard(), turn='white', in_check=False, checkmate=False):
         self._board = board
         self._turn = turn
-        self._check = check
+        self._in_check = in_check
         self._checkmate = checkmate
 
     @property
@@ -27,8 +27,8 @@ class Chess():
         return self._turn
 
     @property
-    def check(self):
-        return self._check
+    def in_check(self):
+        return self._in_check
 
     @property
     def checkmate(self):
@@ -46,7 +46,7 @@ class Chess():
                 game_copy._handle_castling(move[0], move[1])
             else:
                 game_copy._board.move(move[0], move[1])
-            if game_copy._is_check(color):
+            if game_copy._is_in_check(color):
                 return False
             return True
 
@@ -71,7 +71,7 @@ class Chess():
 
         self._swap_turn()
 
-        self._check = True if self._is_check() else False
+        self._in_check = True if self._is_in_check() else False
         self._checkmate = True if self._is_checkmate() else False
 
         if captured_piece is not None:
@@ -108,7 +108,7 @@ class Chess():
                 status += 'white wins!'
         else:
             status += (f"Turn: {self.turn}\n"
-                       f"Check: {self.check}")
+                       f"In check: {self.in_check}")
 
         board_str = ''
         for square_index, char in enumerate(self._board.to_string(self.turn)):
@@ -193,7 +193,7 @@ class Chess():
 
         self._board.set_square(square, piece)
 
-    def _is_check(self, color=None):
+    def _is_in_check(self, color=None):
         if color is None:
             color = self.turn
 
@@ -238,7 +238,7 @@ class Chess():
                 return Pawn(color, en_passantable=piece_dict['en_passantable'])
 
         turn = chess_state['turn']
-        check = chess_state['check']
+        in_check = chess_state['in_check']
         checkmate = chess_state['checkmate']
 
         board = ChessBoard(empty=True)
@@ -246,15 +246,15 @@ class Chess():
             if piece_dict:
                 board.set_square(index_to_square(index), create_piece(piece_dict))
 
-        return Chess(board=board, turn=turn, check=check, checkmate=checkmate)
+        return Chess(board=board, turn=turn, in_check=in_check, checkmate=checkmate)
 
     @staticmethod
     def _json_schema():
         return {
             "type": "object",
-            "required": ["check", "checkmate", "turn", "board"],
+            "required": ["in_check", "checkmate", "turn", "board"],
             "properties": {
-                "check": { "type": "boolean" },
+                "in_check": { "type": "boolean" },
                 "checkmate": { "type": "boolean" },
                 "turn": {
                     "type": "string",

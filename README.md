@@ -50,7 +50,7 @@ The properties of a `Chess` object are shown in the following code snippet:
 ```
 chess = Chess()
 print(chess.turn)
-print(chess.check)
+print(chess.in_check)
 print(chess.checkmate)
 ```
 Output:
@@ -97,7 +97,7 @@ chess.print()
 Output:
 ```
 Turn: white
-Check: False
+In check: False
 rnbqkbnr
 pppppppp
 ........
@@ -339,7 +339,7 @@ Output:
     ]
   },
   "turn": "white",
-  "check": false,
+  "in_check": false,
   "checkmate": false
 }
 ```

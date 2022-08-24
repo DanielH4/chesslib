@@ -187,17 +187,17 @@ def test_move():
     assert (
         game1.turn == 'black'
         and
-        game1.check == True
+        game1.in_check == True
         and
         game1.checkmate == False
         and
-        game2.check == False
+        game2.in_check == False
         and
         game3.checkmate == True
         and
         isinstance(game4_promoted_piece, Queen)
         and
-        game4.check == True
+        game4.in_check == True
         and
         game5_en_passantable == True
         and

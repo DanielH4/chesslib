@@ -1,5 +1,5 @@
 {
-  "check": false,
+  "in_check": false,
   "checkmate": false,
   "turn": "white",
   "board": {
